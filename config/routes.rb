@@ -1,3 +1,8 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  root to: 'posts#index'
+  devise_for :members
+  get 'homes/about', as: 'about'
+  
+  resources :posts, only: [:new, :create, :index, :show, :destroy]
+  resources :members, only: [:show, :edit, :update]
 end
