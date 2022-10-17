@@ -8,7 +8,23 @@
   <% if @post.member == current_member %>
     <%= link_to "削除", post_path(@post.id), method: :delete %>
   <% end %>
+
+ <% if @post.favorited_by?(current_member) %>
+    <p>
+      <%= link_to post_favorites_path(@post), method: :delete do %>
+        ♥<%= @post.favorites.count %> いいね
+      <% end %>
+    </p>
+    <% else %>
+    <p>
+      <%= link_to post_favorites_path(@post), method: :post do %>
+        ♡<%= @post.favorites.count %> いいね
+      <% end %>
+    </p>
+  <% end %></div>
+  
 </div>
+
 
 <div>
   <p>コメント件数：<%= @post.comments.count %></p>
@@ -17,7 +33,7 @@
     <%= comment.member.name %>
     <%= comment.created_at.strftime('%Y/%m/%d') %><%= comment.comment_body %>
     <% if comment.member == current_member %>
-      <%= link_to "削除", post_comment_path(comment.post, comment.id), method: :delete %>
+      <%= link_to "削除", post_comment_path(@post, comment), method: :delete %>
     <% end %>
   <% end %>
 </div>
